@@ -1,20 +1,19 @@
-// Importe le module Express, un framework web pour Node.js
-const express = require('express');
-const { start } = require('repl');
 
-// Crée une instance de l'application Express. serveur web où l'api rest va fonctionner
-const app = express();
+const express = require('express');// Importe le module Express, un framework web pour Node.js
 
-// Définit le numéro de port sur lequel le serveur écoutera
-const port = 3000;
+let pokemons = require('./mock-pokemon');//importe la liste des pokémons
+
+const app = express();// Crée une instance de l'application Express. serveur web où l'api rest va fonctionner
+const port = 3000; // Définit le numéro de port sur lequel le serveur écoutera
 
 // Définit une route pour la racine de l'application ('/')
 // Lorsque quelqu'un accède à la racine, le serveur répond avec le message "Hello Express! 😃"
-app.get('/', (req, res) => res.send('Hello Express 2! 😃'));
+app.get('/', (req, res) => res.send('Hello Express ! 😃'));
 
 app.get('/api/pokemon/:id', (req, res) => {
-    const id = req.params.id
-    res.send(`Vous avez demandé le pokémon ${id}`)
+    const id = parseInt(req.params.id);
+    const pokemon = pokemons.find(pokemon => pokemon.id === id); // la methode find permet de récupérer un pokemon en fonction d'une certaine condition
+    res.send(`Vous avez demandé le pokémon ${pokemon.name}`);
 });
 
 

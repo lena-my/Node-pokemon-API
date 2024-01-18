@@ -109,4 +109,4 @@ const pokemons = [
     }
    ];
      
-   module.exports = pokemons //export d'un module CommonJS. Cela permet d'utiliser la liste de pokemons partout dans l'applications
+   module.exports = pokemons
