@@ -14,9 +14,10 @@ app.get('/api/pokemon/:id', (req, res) => {
     res.json(success(message, pokemon)); //renvoie des données en format json
 });
 
-
+//on retourne la liste de pokemons
 app.get('/api/pokemons', (req, res) => {
-    res.send(`Il y a ${pokemons.length} pokemons dans le pokedex, pour le moment.`)
+    const message = 'La liste de pokemons a bien été trouvée!'
+    res.json(success(message, pokemons))
 });
 
 
