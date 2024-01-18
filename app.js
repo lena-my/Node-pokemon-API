@@ -13,7 +13,7 @@ app.get('/', (req, res) => res.send('Hello Express ! 😃'));
 app.get('/api/pokemon/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const pokemon = pokemons.find(pokemon => pokemon.id === id); // la methode find permet de récupérer un pokemon en fonction d'une certaine condition
-    res.send(`Vous avez demandé le pokémon ${pokemon.name}`);
+    res.json(pokemon); //renvoie des données en format json
 });
 
 
