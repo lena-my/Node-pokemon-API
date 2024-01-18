@@ -5,12 +5,10 @@ let pokemons = require('./mock-pokemon');//importe la liste des pokémons
 const app = express();// Crée une instance de l'application Express. serveur web où l'api rest va fonctionner
 const port = 3000; // Définit le numéro de port sur lequel le serveur écoutera
 
-const logger = (req, res, next) => {
+app.use((req, res, next) => {
     console.log(`URL : ${req.url}`);
     next();
-}
-
-app.use(logger);
+});
 
 app.get('/', (req, res) => res.send('Hello Express ! 😃'));// Définit une route pour la racine de l'application ('/')
 
