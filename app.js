@@ -17,6 +17,10 @@ app.get('/api/pokemon/:id', (req, res) => {
 });
 
 
+app.get('/api/pokemons', (req, res) => {
+    res.send(`Il y a ${pokemons.length} pokemons dans le pokedex, pour le moment.`)
+});
+
 
 // Lance le serveur sur le port spécifié et affiche un message dans la console indiquant que le serveur est en cours d'exécution
 app.listen(port, () => console.log(`Notre application Node est démarrée sur http://localhost:${port}`));
