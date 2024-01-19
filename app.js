@@ -11,7 +11,7 @@ const port = 3000; // Définit le numéro de port sur lequel le serveur écouter
 app
     .use(favicon(__dirname + '/favicon.ico')) // middleware favicon
     .use(morgan('dev'))
-    .unsubscribe(bodyParser.json())
+    .use(bodyParser.json())
 
 /*app.use((req, res, next) => {
     console.log(`URL : ${req.url}`);
@@ -33,16 +33,41 @@ app.get('/api/pokemons', (req, res) => {
     res.json(success(message, pokemons))
 });
 
+/* Ajouter un nouveau Pokémon */
 app.post('/api/pokemons', (req, res) => {
-    const id = getUniqueId(pokemons);
+    const id = getUniqueId(pokemons)
     const pokemonCreated = { ...req.body, ...{id: id, created: new Date()}}
     pokemons.push(pokemonCreated)
     const message = `Le pokémon ${pokemonCreated.name} a bien été crée.`
     res.json(success(message, pokemonCreated))
   })
     
+//Modifier un pokemon
+/*
+app.put('/api/pokemons/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const pokemonUpdated = { ...req.body, id: id};
+    pokemons = pokemons.map(pokemon => {
+        return pokemon.id === id ? pokemonUpdated : pokemon;
+    })
+    const message = `Le pokemon ${pokemonUpdated.name} a bien été modifié.`;
+    res.json(success(message, pokemonUpdated));
+})
+*/
+/*Modifier un Pokémon */
+// ...
 
-
+app.put('/api/pokemons/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    const pokemonUpdated = { ...req.body, id: id }
+    pokemons = pokemons.map(pokemon => {
+     return pokemon.id === id ? pokemonUpdated : pokemon
+    })
+     
+    const message = `Le pokémon ${pokemonUpdated.name} a bien été modifié.`
+    res.json(success(message, pokemonUpdated))
+   });
+ 
 
 // Lance le serveur sur le port spécifié et affiche un message dans la console indiquant que le serveur est en cours d'exécution
 app.listen(port, () => console.log(`Notre application Node est démarrée sur http://localhost:${port}`));
