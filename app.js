@@ -67,7 +67,15 @@ app.put('/api/pokemons/:id', (req, res) => {
     const message = `Le pokémon ${pokemonUpdated.name} a bien été modifié.`
     res.json(success(message, pokemonUpdated))
    });
- 
+
+/*  Supprimer un Pokémon */
+app.delete('/api/pokemons/:id', (req, res) => {
+    const id = parseInt(req.params.id)
+    const pokemonDeleted = pokemons.find(pokemon => pokemon.id === id)
+    pokemons = pokemons.filter(pokemon => pokemon.id !== id)
+    const message = `Le pokémon ${pokemonDeleted.name} a bien été supprimé.`
+    res.json(success(message, pokemonDeleted))
+  });
 
 // Lance le serveur sur le port spécifié et affiche un message dans la console indiquant que le serveur est en cours d'exécution
 app.listen(port, () => console.log(`Notre application Node est démarrée sur http://localhost:${port}`));
