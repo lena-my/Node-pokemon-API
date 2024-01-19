@@ -1,7 +1,8 @@
 const express = require('express');// Importe le module Express, un framework web pour Node.js
 const morgan = require('morgan'); //importe morgan
 const favicon = require('serve-favicon'); // import favicon
-const { success } = require('./helper.js'); //Importe helper.js
+const bodyParser = require('body-parser');
+const { success, getUniqueId } = require('./helper.js'); //Importe helper.js
 let pokemons = require('./mock-pokemon');//importe la liste des pokémons
 
 const app = express();// Crée une instance de l'application Express. serveur web où l'api rest va fonctionner
@@ -10,6 +11,7 @@ const port = 3000; // Définit le numéro de port sur lequel le serveur écouter
 app
     .use(favicon(__dirname + '/favicon.ico')) // middleware favicon
     .use(morgan('dev'))
+    .unsubscribe(bodyParser.json())
 
 /*app.use((req, res, next) => {
     console.log(`URL : ${req.url}`);
@@ -30,6 +32,16 @@ app.get('/api/pokemons', (req, res) => {
     const message = 'La liste de pokemons a bien été trouvée!';
     res.json(success(message, pokemons))
 });
+
+app.post('/api/pokemons', (req, res) => {
+    const id = getUniqueId(pokemons);
+    const pokemonCreated = { ...req.body, ...{id: id, created: new Date()}}
+    pokemons.push(pokemonCreated)
+    const message = `Le pokémon ${pokemonCreated.name} a bien été crée.`
+    res.json(success(message, pokemonCreated))
+  })
+    
+
 
 
 // Lance le serveur sur le port spécifié et affiche un message dans la console indiquant que le serveur est en cours d'exécution
