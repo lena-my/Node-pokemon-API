@@ -2,11 +2,30 @@ const express = require('express');// Importe le module Express, un framework we
 const morgan = require('morgan'); //importe morgan
 const favicon = require('serve-favicon'); // import favicon
 const bodyParser = require('body-parser');
+const { Sequelize } = require('sequelize') // import le module sequelize
 const { success, getUniqueId } = require('./helper.js'); //Importe helper.js
 let pokemons = require('./mock-pokemon');//importe la liste des pokémons
 
 const app = express();// Crée une instance de l'application Express. serveur web où l'api rest va fonctionner
 const port = 3000; // Définit le numéro de port sur lequel le serveur écoutera
+
+//conexion à la bd
+const sequelize = new Sequelize(
+    'pokedex', //nom de la bd
+    'root', //identifiant par defaut
+    '', //mot de passe
+    {
+        host: 'localhost',//indique où se trouve la bd sur ma machine
+        dialect: 'mariadb',// driver qui permet l'interaction avec la bd
+        dialectOptions: {
+            timezone: 'Etc/GMT-2',
+    },
+    logging: false
+  })
+
+sequelize.authenticate()
+    .then(_ => console.log('La connexion à la base de données a bien été établie.'))
+    .catch(error => console.error(`Impossible de se connecter à la base de données ${error}`))
 
 app
     .use(favicon(__dirname + '/favicon.ico')) // middleware favicon
