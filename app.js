@@ -2,9 +2,10 @@ const express = require('express');// Importe le module Express, un framework we
 const morgan = require('morgan'); //importe morgan
 const favicon = require('serve-favicon'); // import favicon
 const bodyParser = require('body-parser');
-const { Sequelize } = require('sequelize') // import le module sequelize
+const { Sequelize, DataTypes } = require('sequelize') // import le module sequelize et datatypes
 const { success, getUniqueId } = require('./helper.js'); //Importe helper.js
 let pokemons = require('./mock-pokemon');//importe la liste des pokémons
+const PokemonModel = require('./src/models/pokemon'); // importe le modèle pokemon
 
 const app = express();// Crée une instance de l'application Express. serveur web où l'api rest va fonctionner
 const port = 3000; // Définit le numéro de port sur lequel le serveur écoutera
@@ -26,6 +27,17 @@ const sequelize = new Sequelize(
 sequelize.authenticate()
     .then(_ => console.log('La connexion à la base de données a bien été établie.'))
     .catch(error => console.error(`Impossible de se connecter à la base de données ${error}`))
+
+const Pokemon = PokemonModel(sequelize, DataTypes) //instancie le PokemonModel
+
+sequelize.sync({force: true}) // la méthode sync synchronise l'instance Pokemon avec la bd 
+/* 
+force: true permet de supprimer complètement la table associée à chaque modèele avant d'effecture une synchronisation dans la bonne forme. 
+On perd des données à chaque synchronisation. mais à terme on va se débarasser de l'option force.
+cela permet de démarrer à chaque fois avec des données neuves à chaque démarrage de l'api rest
+*/
+
+  .then(_ => console.log('La base de données "Pokedex" a bien été synchronisée.'))
 
 app
     .use(favicon(__dirname + '/favicon.ico')) // middleware favicon
