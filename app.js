@@ -46,7 +46,7 @@ cela permet de démarrer à chaque fois avec des données neuves à chaque déma
         cp: 5,
         picture: 'http:/assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png',
         types: ["Plante", "Poison"].join() // join une chaine de carateres l'array
-    }).then(bulbizarre => console.log(bulbizarre.toJSON())) 
+    }).then(bulbizarre => console.log(bulbizarre.toJSON())) // la méthode toJSON est recommandée pour afficher correctement les instances du modèle
   })
 
 app
