@@ -37,7 +37,17 @@ On perd des données à chaque synchronisation. mais à terme on va se débarass
 cela permet de démarrer à chaque fois avec des données neuves à chaque démarrage de l'api rest
 */
 
-  .then(_ => console.log('La base de données "Pokedex" a bien été synchronisée.'))
+  .then(_ => {
+    console.log('La base de données "Pokedex" a bien été synchronisée.'),
+
+    Pokemon.create({
+        name: 'Bulbizzare',
+        hp: 25,
+        cp: 5,
+        picture: 'http:/assets.pokemon.com/assets/cms2/img/pokedex/detail/001.png',
+        types: ["Plante", "Poison"].join() // join une chaine de carateres l'array
+    }).then(bulbizarre => console.log(bulbizarre.toJSON())) 
+  })
 
 app
     .use(favicon(__dirname + '/favicon.ico')) // middleware favicon
