@@ -29,7 +29,13 @@ module.exports = (sequelize, DataTypes) => { // export de 2 fonctions avec 2 par
       },
       types: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        get() {
+          return this.getDataValue('types').split('')
+        },
+        set() {
+          return this.setDataValue('types', types.join())
+        }
       }
     }, 
     
