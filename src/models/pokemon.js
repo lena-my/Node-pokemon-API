@@ -1,48 +1,44 @@
 /* L’API Rest et la Base de données : Créer un modèle Sequelize */
-
-module.exports = (sequelize, DataTypes) => { // export de 2 fonctions avec 2 parametres
-    
-    //on retourne le résultat de la méthode define
-    return sequelize.define('Pokemon', { // nom du modèle
-      
-      /*description du modèle*/
+module.exports = (sequelize, DataTypes) => {
+  return sequelize.define('Pokemon', {
     id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    hp: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    cp: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    picture: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    types: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      get() {
+        return this.getDataValue('types').split(',')
       },
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      hp: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
-      cp: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      },
-      picture: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
-      types: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        get() {
-          return this.getDataValue('types').split('')
-        },
-        set() {
-          return this.setDataValue('types', types.join())
-        }
+      set(types) {
+        this.setDataValue('types', types.join())
       }
-    }, 
-    
-    /* option de parametrage globale */
-    {
-      timestamps: true, // indique qu'onsouhaite modifier le comportement par defaut
-      createdAt: 'created', // renomé 'createdAt' contre 'created'
-      updatedAt: false // desactiver 'updatedAt'
-    })
-  }
+    }
+  }, {
+    timestamps: true,
+    createdAt: 'created',
+    updatedAt: false
+  });
+};
+
+
+
+
