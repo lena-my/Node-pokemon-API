@@ -11,6 +11,7 @@ module.exports = (app) => {
             [Op.like]: `%${name}%` // 'name' est le critère de la recherche
           }
         },
+        order: ['name'],
         limit: 5,
       })
       .then(({count, rows}) => {
@@ -18,7 +19,7 @@ module.exports = (app) => {
         res.json({ message, data: rows })
       })
     } else {
-      Pokemon.findAll()
+      Pokemon.findAll({ order: ['name'] })
       .then(pokemons => {
         const message = 'La liste des pokémons a bien été récupérée.'
         res.json({ message, data: pokemons })
