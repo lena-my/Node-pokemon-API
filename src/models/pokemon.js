@@ -8,23 +8,52 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        notEmpty: { msg: 'Le nom ne peut pas être vide.'},
+        notNull: { msg: 'Le nom du Pokemon est une proprieté requise.'}
+      }
+
     },
     hp: {
       type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         isInt: { msg: 'Utilizez uniquement des nombres entiers pour les points de vie.'},
-        notNull: { msg: 'Les points de vie sont une proprieté requise.'}
+        min: {
+          args: [0],
+          msg: 'Les points de vie doivent être supérieurs ou égales à 0.'
+        },
+        max: {
+          args: [999],
+          msg: 'Les points de vie doivent être inférieurs ou égales à 999'
+        },
+        notNull: { msg: 'Les points de vie sont une proprieté requise.'},
       }
     },
     cp: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      validator: {
+        isInt: { msg: 'La valeur doit être un nombre entier.'},
+        min: {
+          args: [0],
+          msg: 'Les points de dêgats doivent être supérieurs ou égales à 0.'
+        },
+        max: {
+          args: [99],
+          msg: 'Les points de dêgats doivent être inférieurs ou égales à 99'
+        },
+        notNull: { msg: 'Les points de dêgats est une propieté est requise.'}
+      }
     },
     picture: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validator: {
+        isUrl: { msg: `Utilisez uniquement une URL valide pour l'image.`},
+        notNull: { msg: `L'image est une proprieté est requise.`}
+      }
     },
     types: {
       type: DataTypes.STRING,
